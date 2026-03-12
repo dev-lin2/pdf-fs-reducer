@@ -1,0 +1,35 @@
+{
+  "name": "pdf-fs-reducer",
+  "version": "1.0.0",
+  "description": "Reduce PDF file size with Ghostscript from CLI or JavaScript API.",
+  "main": "lib/index.js",
+  "bin": {
+    "pdf-fs-reducer": "bin/cli.js"
+  },
+  "exports": {
+    ".": "./lib/index.js"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "pdf",
+    "compress",
+    "reduce",
+    "filesize",
+    "ghostscript",
+    "cli"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^11.1.0",
+    "ora": "^5.4.1"
+  }
+}
