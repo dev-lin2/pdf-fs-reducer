@@ -36,6 +36,9 @@ npx pdf-fs-reducer report.pdf --preset screen
 # force custom image DPI (overrides preset)
 npx pdf-fs-reducer report.pdf --dpi 120
 
+# reduce quality by 30% from base DPI
+npx pdf-fs-reducer report.pdf --size 30
+
 # high quality print-oriented output
 npx pdf-fs-reducer report.pdf -p printer -o report.print.pdf
 ```
@@ -48,6 +51,7 @@ npx pdf-fs-reducer report.pdf -p printer -o report.print.pdf
 | `-o, --output <path>` | Output PDF path | `<input-basename>.reduced.pdf` in same directory |
 | `-p, --preset <name>` | Quality preset (`screen`, `ebook`, `printer`, `prepress`) | `ebook` |
 | `-d, --dpi <number>` | Custom DPI, overrides `--preset` | n/a |
+| `-s, --size <percent>` | Reduce quality by percentage (example: `30` means 30% lower quality) | n/a |
 | `-c, --compatibility <ver>` | PDF compatibility level | `1.4` |
 | `-V, --version` | Show version | n/a |
 | `-h, --help` | Show help | n/a |
@@ -79,6 +83,7 @@ async function run() {
     input: "./input.pdf",
     output: "./output.pdf",
     preset: "ebook",
+    size: 30,
     compatibility: "1.4"
   });
 
@@ -97,7 +102,9 @@ Return value:
   inputSize: 123456,
   outputSize: 98765,
   saved: 24691,
-  percent: 19.99
+  percent: 19.99,
+  effectiveDpi: 105,
+  qualityReduction: 30
 }
 ```
 
@@ -123,6 +130,7 @@ Saved to: C:\docs\report.reduced.pdf
 
 `pdf-fs-reducer` calls Ghostscript (`pdfwrite`) to rebuild the PDF with lower image resolution.  
 In custom DPI mode, images are downsampled with bicubic interpolation.  
+With `--size`, the tool converts quality reduction percentage into an effective DPI (`baseDPI * (1 - size/100)`).  
 Text and vector drawing instructions are preserved, so reductions mainly come from image-heavy pages.
 
 ## License

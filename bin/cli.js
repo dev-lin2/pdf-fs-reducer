@@ -44,6 +44,10 @@ program
   )
   .option("-p, --preset <name>", "Quality preset (screen, ebook, printer, prepress)", "ebook")
   .option("-d, --dpi <number>", "Custom DPI, overrides --preset")
+  .option(
+    "-s, --size <percent>",
+    "Reduce quality by percentage (example: --size=30 reduces quality by 30%)"
+  )
   .option("-c, --compatibility <ver>", "PDF compatibility level", "1.4")
   .showHelpAfterError()
   .addHelpText(
@@ -54,6 +58,7 @@ Examples:
   npx pdf-fs-reducer input.pdf -o output.pdf
   npx pdf-fs-reducer input.pdf --preset screen
   npx pdf-fs-reducer input.pdf --dpi 120
+  npx pdf-fs-reducer input.pdf --size 30
   npx pdf-fs-reducer input.pdf -p printer -o high-quality.pdf
 
 Presets:
@@ -61,6 +66,10 @@ Presets:
   ebook    -> 150 DPI (default, good balance)
   printer  -> 300 DPI (high quality printing)
   prepress -> 300 DPI (maximum quality, publishing)
+
+Quality reduction:
+  --size 30 means quality is reduced by 30% from the selected base DPI.
+  Base DPI comes from --dpi if provided, otherwise from --preset.
 
 Requires Ghostscript installed:
   macOS:   brew install ghostscript
@@ -91,6 +100,14 @@ program.action(async (input, options) => {
     }
   }
 
+  let parsedSize;
+  if (options.size !== undefined) {
+    parsedSize = Number(options.size);
+    if (!Number.isFinite(parsedSize) || parsedSize <= 0 || parsedSize >= 100) {
+      printErrorAndExit("Option --size must be a number greater than 0 and less than 100.");
+    }
+  }
+
   const preset = String(options.preset || "ebook");
   if (options.dpi === undefined && !PRESETS[preset]) {
     printErrorAndExit(
@@ -114,6 +131,7 @@ program.action(async (input, options) => {
       output: outputPath,
       preset,
       dpi: parsedDpi,
+      size: parsedSize,
       compatibility: options.compatibility,
       showProgress: true
     });
