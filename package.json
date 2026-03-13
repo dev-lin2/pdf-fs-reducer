@@ -3,11 +3,16 @@
   "version": "1.0.1",
   "description": "Reduce PDF file size with Ghostscript from CLI or JavaScript API.",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "bin": {
     "pdf-fs-reducer": "bin/cli.js"
   },
   "exports": {
-    ".": "./lib/index.js"
+    ".": {
+      "types": "./lib/index.d.ts",
+      "require": "./lib/index.js",
+      "default": "./lib/index.js"
+    }
   },
   "files": [
     "bin",
