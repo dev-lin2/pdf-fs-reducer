@@ -5,6 +5,12 @@ Reduce PDF file size by downsampling embedded images through Ghostscript.
 [![npm version](https://img.shields.io/npm/v/pdf-fs-reducer)](https://www.npmjs.com/package/pdf-fs-reducer)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
+# Demo
+
+See the demo [here](https://pdf-reducer.linaung.dev/)
+
+And [here](https://github.com/dev-lin2?tab=repositories) for github repo.
+
 ## Prerequisites
 
 Ghostscript must be installed and available in your system `PATH`.
